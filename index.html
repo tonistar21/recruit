@@ -1,0 +1,1349 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>АСУ "Рекрут+" — Система військового рекрутингу</title>
+    <!-- Підключення шрифтів моделі -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Підключення стилів -->
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+
+    <!-- МОБІЛЬНИЙ ТОПБАР (Відображається тільки на екранах < 768px для адаптивності) -->
+    <div class="mobile-header-bar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="/assets/logo.svg" style="width: 32px; height: 32px;" alt="Logo" />
+        <span class="system-name" style="font-size: 15px;">Рекрут+</span>
+      </div>
+      <button class="mobile-menu-burger" id="mobileBurgerBtn" title="Меню">☰</button>
+    </div>
+
+    <div class="app-container">
+      
+      <!-- ЛІВИЙ САЙДБАР НАВІГАЦІЇ -->
+      <aside class="sidebar">
+        <div>
+          <!-- Логотипна область -->
+          <div class="sidebar-logo-area">
+            <div class="logo-icon-wrap">
+              <img src="/assets/logo.svg" alt="Рекрут+ Логотип" style="width:100%; height:100%;" />
+            </div>
+            <div class="system-title-wrap">
+              <span class="system-name">Рекрут+</span>
+              <span class="system-sub font-mono">MILITARY SYSTEM</span>
+            </div>
+          </div>
+
+          <!-- Список пунктів SPA Навігації -->
+          <nav class="sidebar-nav">
+            <!-- Системний огляд (Dashboard) -->
+            <a class="nav-item" data-target="dashboard" title="Системний огляд">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+              <span>Dashboard</span>
+            </a>
+            <!-- База кандидатів (Candidates) -->
+            <a class="nav-item" data-target="candidates" title="База кандидатів">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Кандидати</span>
+            </a>
+            <!-- Нова анкета (Create Candidate) -->
+            <a class="nav-item" data-target="new-candidate" title="Реєстрація кандидата">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              <span>Нова анкета</span>
+            </a>
+            <!-- Документи (Documents Manager) -->
+            <a class="nav-item" data-target="documents" title="Керування документами">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+              <span>Документи</span>
+            </a>
+            <!-- Статуси / Етапи (Kanban Board) -->
+            <a class="nav-item" data-target="stages" title="Статуси та етапи">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>Статуси / Етапи</span>
+            </a>
+            <!-- Аналітика та звіти (Analytics) -->
+            <a class="nav-item" data-target="analytics" title="Аналітика та звіти">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <span>Аналітика</span>
+            </a>
+            <!-- Управління користувачами (User list) -->
+            <a class="nav-item" data-target="users" title="Облікові записи">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Користувачі</span>
+            </a>
+            <!-- Ролі доступу (Permissions matrix) -->
+            <a class="nav-item" data-target="roles" title="Права безпеки">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Ролі доступу</span>
+            </a>
+            <!-- Журнал дій (System audit logs) -->
+            <a class="nav-item" data-target="logs" title="Журнал засідання дій">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Журнал дій</span>
+            </a>
+            <!-- Налаштування (System configuration) -->
+            <a class="nav-item" data-target="settings" title="Налаштування додатку">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Налаштування</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Кнопка логауту в підвалі сайдбару -->
+        <div class="sidebar-footer">
+          <button class="btn-logout" id="logoutBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            <span>Вийти з системи</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- ПРАВИЙ РОБОЧИЙ МАКЕТ -->
+      <main class="main-layout">
+        
+        <!-- ТОПБАР З ПОШУКОМ ТА СЕСІЯМИ -->
+        <header class="topbar">
+          <!-- Глобальний пошук по базі -->
+          <div class="search-wrapper">
+            <svg class="search-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-input-tactical" id="globalSearchInput" placeholder="Глобальний пошук по базі..." />
+            
+            <!-- Результати пошуку випадаючі -->
+            <div id="globalSearchResultsDropdown" class="search-results-dropdown">
+              <!-- Генерується динамічно у App.js -->
+            </div>
+          </div>
+
+          <!-- Профіль та Сповіщення -->
+          <div class="topbar-right">
+            <!-- Дзвіночок сповіщень -->
+            <button class="notif-badge-btn" title="Системні сповіщення" onclick="alert('Усі військові канали рекрутингу стабільні та захищені.')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              <span class="notif-dot"></span>
+            </button>
+
+            <!-- Осередок користувача з вибором сесій -->
+            <div class="profile-menu-container">
+              <div class="profile-cell" id="profileHeaderCell">
+                <div class="profile-meta">
+                  <span class="profile-name" id="topbarProfileName">Майор Петренко О.</span>
+                  <span class="profile-role-badge" id="topbarProfileRole">Адміністратор</span>
+                </div>
+                <div class="avatar-initials-box font-mono" id="topbarProfileAvatar">МП</div>
+                <svg class="profile-chevron-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+
+              <!-- Випадаюче меню сесій ролей (Тестування RBAC) -->
+              <div class="profile-dropdown-menu" id="profileDropdownMenu">
+                <div class="profile-dropdown-header">Обрати роль сесії (Емуляція)</div>
+                <div class="profile-dropdown-item role-sim-item" data-role="Адміністратор">
+                  <span>Адміністратор (Повні права)</span>
+                  <span class="check-indicator" style="color: #10b981; display: none;">✓</span>
+                </div>
+                <div class="profile-dropdown-item role-sim-item" data-role="Рекрутер">
+                  <span>Рекрутер (Введення/Статуси)</span>
+                  <span class="check-indicator" style="color: #10b981; display: none;">✓</span>
+                </div>
+                <div class="profile-dropdown-item role-sim-item" data-role="Керівник">
+                  <span>Керівник (Звіти/Аналітика)</span>
+                  <span class="check-indicator" style="color: #10b981; display: none;">✓</span>
+                </div>
+                <div class="profile-dropdown-item role-sim-item" data-role="Оператор">
+                  <span>Оператор (Введення справ)</span>
+                  <span class="check-indicator" style="color: #10b981; display: none;">✓</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- ЦЕНТРАЛЬНА СЕКЦІЯ РОБОЧОЇ ЗОНИ -->
+        <div class="page-wrapper">
+
+          <!-- =========================================
+               1. СЕКЦІЯ: DASHBOARD (СИСТЕМНИЙ ОГЛЯД)
+               ========================================= -->
+          <section id="dashboard-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Системний огляд</h1>
+                <p class="page-subtitle">Вітаємо, Майор Петренко. Ось актуальна статистика на сьогодні.</p>
+              </div>
+              <div class="header-actions">
+                <button class="btn-secondary-tactical" id="dashboardExportBtn" onclick="alert('Зведена статистика завантажена у буфер принтера.')">Експорт звіту</button>
+                <button class="btn-success-tactical" id="dashboardRefreshBtn">Оновити дані</button>
+              </div>
+            </div>
+
+            <!-- Статистична сітка карток (Bento Grid) -->
+            <div class="dashboard-grid">
+              <!-- Картка: Усього кандидатів -->
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Усього кандидатів</span>
+                  <span class="stat-card-value" id="dashTotalCandidates">1,284</span>
+                  <span class="stat-card-trend-badge trend-up" style="margin-top: 6px;">
+                    ↗ +12% <span style="color: #8b95a5; font-size:10px; font-weight:normal;">від м.м.</span>
+                  </span>
+                </div>
+                <div class="stat-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+              </div>
+
+              <!-- Картка: Нові за тиждень -->
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Нові за тиждень</span>
+                  <span class="stat-card-value" id="dashNewWeekly">42</span>
+                  <span class="stat-card-trend-badge trend-up" style="margin-top: 6px;">
+                    ↗ +5% <span style="color: #8b95a5; font-size:10px; font-weight:normal;">за 7д.</span>
+                  </span>
+                </div>
+                <div class="stat-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                </div>
+              </div>
+
+              <!-- Картка: На співбесіді -->
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">На співбесіді</span>
+                  <span class="stat-card-value" id="dashOnInterview">156</span>
+                  <span class="stat-card-trend-badge trend-down" style="margin-top: 6px;">
+                    ↘ -2% <span style="color: #8b95a5; font-size:10px; font-weight:normal;">завчора</span>
+                  </span>
+                </div>
+                <div class="stat-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+              </div>
+
+              <!-- Картка: Рекомендовано -->
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Рекомендовано</span>
+                  <span class="stat-card-value" id="dashRecommended">89</span>
+                  <span class="stat-card-trend-badge trend-up" style="margin-top: 6px;">
+                    ↗ +18% <span style="color: #8b95a5; font-size:10px; font-weight:normal;">цього тижня</span>
+                  </span>
+                </div>
+                <div class="stat-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Розподілене поле графіків -->
+            <div class="charts-split-row">
+              <!-- Стовпчастий графік динаміки реєстрацій -->
+              <div class="tactical-card">
+                <div class="tactical-card-header">
+                  <h3 class="tactical-card-title">Динаміка реєстрацій</h3>
+                  <select class="tactical-select">
+                    <option>Останні 7 днів</option>
+                  </select>
+                </div>
+                <div class="canvas-container">
+                  <canvas id="dashRegisterDynamicsCanvas"></canvas>
+                </div>
+              </div>
+
+              <!-- Пончик розподілу за статусами -->
+              <div class="tactical-card">
+                <div class="tactical-card-header">
+                  <h3 class="tactical-card-title">Розподіл за статусами</h3>
+                </div>
+                <div class="canvas-container">
+                  <canvas id="dashStatusDonutCanvas"></canvas>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================
+               2. СЕКЦІЯ: КАНДИДАТИ (БАЗА КАНДИДАТІВ)
+               ========================================= -->
+          <section id="candidates-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">База кандидатів</h1>
+                <p class="page-subtitle">Повний перелік мобілізованих та добровольців у єдиній картотеці.</p>
+              </div>
+              <div>
+                <button class="btn-success-tactical" id="candidateAddBtn">+ Додати кандидата</button>
+              </div>
+            </div>
+
+            <!-- Панель швидких фільтрів -->
+            <div class="filter-panel">
+              <div class="filter-search-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="candidateSearchInput" placeholder="Пошук за ПІБ, телефоном або ID..." />
+              </div>
+              <select class="filter-widget-select" id="candidateStatusFilter">
+                <option value="Всі статуси">Всі статуси</option>
+                <option value="Новий">Новий</option>
+                <option value="Співбесіда">Співбесіда</option>
+                <option value="Перевірка док.">Перевірка док.</option>
+                <option value="Тестування">Тестування</option>
+                <option value="Рекомендовано">Рекомендовано</option>
+                <option value="Відхилено">Відхилено</option>
+                <option value="Архів">Архів</option>
+              </select>
+              <button class="btn-secondary-tactical" id="candidateResetFilterBtn" style="height:38px;">Скинути</button>
+            </div>
+
+            <!-- Таблиця кандидатів -->
+            <div class="table-container">
+              <table class="military-table" id="candidatesMainTable">
+                <thead>
+                  <tr>
+                    <th style="width: 100px;">ID</th>
+                    <th>ПІБ та контакти</th>
+                    <th style="width: 180px;">Статус</th>
+                    <th>Етап відбору</th>
+                    <th style="width: 150px;">Дії</th>
+                  </tr>
+                </thead>
+                <tbody id="candidatesTableBody">
+                  <!-- Рядки рендеряться динамічно в App.js -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- =========================================
+               3. СЕКЦІЯ: НОВА АНКЕТА / РЕЄСТРАЦІЯ
+               ========================================= -->
+          <section id="new-candidate-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Реєстрація нового кандидата</h1>
+                <p class="page-subtitle">Введіть персональні реквізити та сформуйте облікову тактичну справу.</p>
+              </div>
+              <div>
+                <a href="#" class="btn-secondary-tactical" id="saveDraftStepperLink" style="text-decoration: none;">Зберегти чернетку</a>
+              </div>
+            </div>
+
+            <!-- Stepper прогрес-бар -->
+            <div class="stepper-header">
+              <div class="stepper-line"></div>
+              <div class="stepper-line-active" id="newCandidateStepperLineActive"></div>
+
+              <div class="step-node active" data-step="1">
+                <div class="step-circle">
+                  <span>1</span>
+                  <!-- Іконка галки виконаного кроку -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="step-label">Особисті дані</span>
+              </div>
+
+              <div class="step-node" data-step="2">
+                <div class="step-circle">
+                  <span>2</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="step-label">Контакти</span>
+              </div>
+
+              <div class="step-node" data-step="3">
+                <div class="step-circle">
+                  <span>3</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="step-label">Освіта та досвід</span>
+              </div>
+
+              <div class="step-node" data-step="4">
+                <div class="step-circle">
+                  <span>4</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="step-label">Документи</span>
+              </div>
+
+              <div class="step-node" data-step="5">
+                <div class="step-circle">
+                  <span>5</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </div>
+                <span class="step-label">Підтвердження</span>
+              </div>
+            </div>
+
+            <!-- КРОКИ ФОРМИ (Вкладки відображаються по черзі) -->
+            <div id="newCandidateStepperForm">
+              
+              <!-- Крок 1: Особисті дані -->
+              <div class="stepper-pane animate-fade" data-step="1">
+                <div class="form-panel-tactical">
+                  <h3 class="form-panel-title">Особисті дані кандидата</h3>
+                  <div class="form-grid-tactical">
+                    <div class="form-element">
+                      <label class="form-element-label">Прізвище *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepLastName" placeholder="Напр. Коваленко" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Ім'я *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepFirstName" placeholder="Напр. Олександр" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">По батькові</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepMiddleName" placeholder="Напр. Петрович" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Дата народження *</label>
+                      <input type="date" class="text-input-tactical step-pane-input" id="stepBirthDate" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Стать *</label>
+                      <select class="text-input-tactical step-pane-input" id="stepSex">
+                        <option value="Чоловіча">Чоловіча</option>
+                        <option value="Жіноча">Жіноча</option>
+                      </select>
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">ІПН (10 цифр)</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepIpn" placeholder="Код РНОКПП" maxlength="10" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Крок 2: Контакти -->
+              <div class="stepper-pane animate-fade" data-step="2" style="display:none;">
+                <div class="form-panel-tactical">
+                  <h3 class="form-panel-title">Контактна інформація</h3>
+                  <div class="form-grid-tactical">
+                    <div class="form-element">
+                      <label class="form-element-label">Мобільний телефон *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepPhone" placeholder="+380..." />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Адреса електронної пошти *</label>
+                      <input type="email" class="text-input-tactical step-pane-input" id="stepEmail" placeholder="example@mail.com" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Область *</label>
+                      <select class="text-input-tactical step-pane-input" id="stepRegion">
+                        <option value="Київська">Київська</option>
+                        <option value="Львівська">Львівська</option>
+                        <option value="Дніпропетровська">Дніпропетровська</option>
+                        <option value="Одеська">Одеська</option>
+                        <option value="Харківська">Харківська</option>
+                        <option value="Івано-Франківська">Івано-Франківська</option>
+                        <option value="Тернопільська">Тернопільська</option>
+                      </select>
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Місто / Населений пункт *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepCity" placeholder="Введіть населений пункт" />
+                    </div>
+                    <div class="form-element form-group-full">
+                      <label class="form-element-label">Адреса фактичного проживання</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepAddress" placeholder="Вул., буд., квартира" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Крок 3: Освіта та досвід -->
+              <div class="stepper-pane animate-fade" data-step="3" style="display:none;">
+                <div class="form-panel-tactical">
+                  <h3 class="form-panel-title">Професійні навички та освіта</h3>
+                  <div class="form-grid-tactical">
+                    <div class="form-element">
+                      <label class="form-element-label">Рівень освіти *</label>
+                      <select class="text-input-tactical step-pane-input" id="stepEducationLevel">
+                        <option value="Вища">Вища (Бакалавр/Магістр)</option>
+                        <option value="Середня спеціальна">Середня спеціальна</option>
+                        <option value="Середня">Середня</option>
+                        <option value="Науковий ступінь">Науковий ступінь</option>
+                      </select>
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Навчальний заклад *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepInstitution" placeholder="Університет / Академія" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Спеціальність за дипломом *</label>
+                      <input type="text" class="text-input-tactical step-pane-input" id="stepSpeciality" placeholder="Спеціальність" />
+                    </div>
+                    <div class="form-element">
+                      <label class="form-element-label">Бажаний підродзіл / Рід військ *</label>
+                      <select class="text-input-tactical step-pane-input" id="stepDesiredUnit">
+                        <option value="Сили безпілотних систем (СБС)">Сили безпілотних систем (СБС)</option>
+                        <option value="Сухопутні війська (Піхота)">Сухопутні війська (Піхота)</option>
+                        <option value="Медична служба бригади">Медична служба бригади</option>
+                        <option value="Сили спеціальних операцій (ССО)">Сили спеціальних операцій (ССО)</option>
+                        <option value="Загін РЕБ та радіотехнічного зв'язку">Загін РЕБ та радіотехнічного зв'язку</option>
+                        <option value="Військово-Морські Сили">Військово-Морські Сили</option>
+                      </select>
+                    </div>
+                    <div class="form-element form-group-full">
+                      <label class="form-element-label">Цивільний досвід роботи (опис)</label>
+                      <textarea class="text-input-tactical step-pane-input" id="stepWorkExperience" style="height: 60px; padding: 10px; resize: none;" placeholder="Основне місце роботи, технології, посада..."></textarea>
+                    </div>
+                    <div class="form-element form-group-full">
+                      <label class="form-element-label">Попередній військовий досвід або курси</label>
+                      <textarea class="text-input-tactical step-pane-input" id="stepMilitaryExperience" style="height: 60px; padding: 10px; resize: none;" placeholder="Військова техніка, звання, участь у заходах..."></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Крок 4: Документи -->
+              <div class="stepper-pane animate-fade" data-step="4" style="display:none;">
+                <div class="form-panel-tactical">
+                  <h3 class="form-panel-title">Завантаження супроводжувальних документів</h3>
+                  
+                  <div class="doc-upload-grid">
+                    <!-- Паспорт зони -->
+                    <div class="doc-upload-card" id="uploadZonePassport">
+                      <div class="doc-upload-info">
+                        <div class="doc-upload-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h8"/><circle cx="8" cy="9" r="1"/></svg>
+                        </div>
+                        <div class="doc-upload-file-label">
+                          <span class="doc-upload-title">Копія Паспорта (1-2 сторінки або ID-картка) *</span>
+                          <span class="doc-upload-sub">Формат: PDF, JPG. Ліміт 10MB</span>
+                        </div>
+                      </div>
+                      <input type="file" class="doc-file-input" data-type="Паспорт" />
+                      <button class="btn-secondary-tactical">Вибрати файл</button>
+                      <div class="uploaded-status-check">✓ Завантажено</div>
+                    </div>
+
+                    <!-- ІПН -->
+                    <div class="doc-upload-card" id="uploadZoneIPN">
+                      <div class="doc-upload-info">
+                        <div class="doc-upload-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.09-1.09a2 2 0 0 0-2.82 0L15 17"/></svg>
+                        </div>
+                        <div class="doc-upload-file-label">
+                          <span class="doc-upload-title">Копія довідки ІПН *</span>
+                          <span class="doc-upload-sub">Формат: PDF, JPG. Ліміт 5MB</span>
+                        </div>
+                      </div>
+                      <input type="file" class="doc-file-input" data-type="ІПН" />
+                      <button class="btn-secondary-tactical">Вибрати файл</button>
+                      <div class="uploaded-status-check">✓ Завантажено</div>
+                    </div>
+
+                    <!-- Диплом -->
+                    <div class="doc-upload-card" id="uploadZoneDiploma">
+                      <div class="doc-upload-info">
+                        <div class="doc-upload-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2.5 3 6 3s6-1 6-3v-5"/></svg>
+                        </div>
+                        <div class="doc-upload-file-label">
+                          <span class="doc-upload-title">Диплом про освіту (з додатком)</span>
+                          <span class="doc-upload-sub">Формат: PDF. Ліміт 15MB</span>
+                        </div>
+                      </div>
+                      <input type="file" class="doc-file-input" data-type="Диплом" />
+                      <button class="btn-secondary-tactical">Вибрати файл</button>
+                      <div class="uploaded-status-check">✓ Завантажено</div>
+                    </div>
+
+                    <!-- Медична довідка -->
+                    <div class="doc-upload-card" id="uploadZoneMed">
+                      <div class="doc-upload-info">
+                        <div class="doc-upload-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                        </div>
+                        <div class="doc-upload-file-label">
+                          <span class="doc-upload-title">Медична довідка (ВЛК або сертифікат здоров'я)</span>
+                          <span class="doc-upload-sub">Формат: PDF. Ліміт 15MB</span>
+                        </div>
+                      </div>
+                      <input type="file" class="doc-file-input" data-type="Медична довідка" />
+                      <button class="btn-secondary-tactical">Вибрати файл</button>
+                      <div class="uploaded-status-check">✓ Завантажено</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Крок 5: Підтвердження -->
+              <div class="stepper-pane animate-fade" data-step="5" style="display:none;">
+                <div class="form-panel-tactical">
+                  <h3 class="form-panel-title" style="color:#10b981; border-bottom-color: #354b34;">Зведена відомість перевірки кандидата</h3>
+                  
+                  <div class="confirm-grid-box">
+                    <div class="confirm-grid-title">1. Реквізити особистої справи</div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">ПІБ:</span><span class="confirm-item-value" id="confirmFio">Коваленко Олександр Петрович</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Дата народження:</span><span class="confirm-item-value" id="confirmBirth">15.06.1992</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Стать:</span><span class="confirm-item-value" id="confirmSex">Чоловіча</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">ІПН / РНОКПП:</span><span class="confirm-item-value" id="confirmIpn">3245678901</span></div>
+                  </div>
+
+                  <div class="confirm-grid-box">
+                    <div class="confirm-grid-title">2. Комунікація та залучення</div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Телефон:</span><span class="confirm-item-value" id="confirmPhone">+380 67 123 45 67</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Адреса мешкання / Email:</span><span class="confirm-item-value" id="confirmEmail">example@mail.com</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Місце проживання:</span><span class="confirm-item-value" id="confirmAddr">Київська обл., м. Київ</span></div>
+                  </div>
+
+                  <div class="confirm-grid-box">
+                    <div class="confirm-grid-title">3. Профільна придатність та розподіл</div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Освіта:</span><span class="confirm-item-value" id="confirmEduc">Вища (Київський університет)</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Спеціальність за дипломом:</span><span class="confirm-item-value" id="confirmSpec">Кібербезпека</span></div>
+                    <div class="confirm-item-row"><span class="confirm-item-label">Обраний підрозділ:</span><span class="confirm-item-value" id="confirmDesiredUnit" style="color: #10b981; font-weight:700;">Сили безпілотних систем</span></div>
+                  </div>
+
+                  <div class="confirm-grid-box">
+                    <div class="confirm-grid-title">4. Наявні супроводжувальні файли</div>
+                    <div id="confirmFilesContainer">
+                      <!-- Документи рендеряться динамічно -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Нижня навігація степпера -->
+            <div class="stepper-actions-panel">
+              <button class="btn-secondary-tactical" id="stepPrevBtn">Назад до кроку</button>
+              <div>
+                <button class="btn-success-tactical" id="stepNextBtn">Наступний крок →</button>
+                <button class="btn-primary-tactical" id="stepRegisterBtn" style="display:none; background-color:#10b981; color:#0d1114; font-weight:800; border-color:#10b981;">Зареєструвати кандидата</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================
+               4. СЕКЦІЯ: ДОКУМЕНТИ КАНДИДАТІВ
+               ========================================= -->
+          <section id="documents-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Прикріплені документи</h1>
+                <p class="page-subtitle">Реєстр та аудит верифікації документів особових справ.</p>
+              </div>
+            </div>
+
+            <!-- Фільтра за документами -->
+            <div class="filter-panel">
+              <div class="filter-search-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="docSearchInput" placeholder="Пошук за кандидатом або назвою файлу..." />
+              </div>
+              <select class="filter-widget-select" id="docTypeFilter">
+                <option value="Всі типи">Всі типи документів</option>
+                <option value="Паспорт">Паспорт</option>
+                <option value="ІПН">ІПН</option>
+                <option value="Диплом">Диплом</option>
+                <option value="Медична довідка">Медична довідка</option>
+                <option value="Інші документи">Інші документи</option>
+              </select>
+            </div>
+
+            <!-- Таблиця файлів -->
+            <div class="table-container">
+              <table class="military-table" id="documentsMainTable">
+                <thead>
+                  <tr>
+                    <th style="width:100px;">ID</th>
+                    <th>ПІБ Кандидата</th>
+                    <th>Тип документа</th>
+                    <th>Назва файлу документа</th>
+                    <th>Дата заватаження</th>
+                    <th style="width:180px;">Статус</th>
+                    <th style="width:150px;">Дії</th>
+                  </tr>
+                </thead>
+                <tbody id="documentsTableBody">
+                  <!-- Рендер з App.js -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- =========================================
+               5. СЕКЦІЯ: СТАТУСИ / ЕТАПИ (KANBAN)
+               ========================================= -->
+          <section id="stages-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Статуси та етапи відбору</h1>
+                <p class="page-subtitle">Оперативне переміщення та контроль життєвого циклу залучених бійців.</p>
+              </div>
+            </div>
+
+            <!-- Kanban борд -->
+            <div class="kanban-board" id="kanbanBoardContainer">
+              <!-- Рендериться динамічно в App.js за етапами STAGES -->
+            </div>
+          </section>
+
+          <!-- =========================================
+               6. СЕКЦІЯ: АНАЛІТИКА ТА ЗВІТИ
+               ========================================= -->
+          <section id="analytics-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Аналітика та звіти</h1>
+                <p class="page-subtitle">Моніторинг ефективності залучення резервів, СБ та рекрутерів бригади.</p>
+              </div>
+              <div class="header-actions">
+                <div style="background-color: #12161a; border: 1px solid #283039; padding: 10px 14px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size:12px; display:flex; align-items:center; gap:8px;">
+                  📅 01.03.2024 - 31.03.2024
+                </div>
+                <button class="btn-success-tactical" id="analyticsExportPdfBtn" style="font-weight: 700;">📥 Експорт PDF</button>
+              </div>
+            </div>
+
+            <!-- Інформаційні Картки швидких КРІ -->
+            <div class="analytics-highlight-row">
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Конверсія відбору</span>
+                  <span class="stat-card-value" id="analyticsConversionId">24.8%</span>
+                  <span class="stat-card-trend-badge trend-up" style="margin-top:4px;">↗ +2.4% від м.м.</span>
+                </div>
+                <div class="stat-icon-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg></div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Середній час відбору</span>
+                  <span class="stat-card-value" id="analyticsAvgTimeId">12 днів</span>
+                  <span class="stat-card-trend-badge trend-up" style="color: #10b981; margin-top:4px;">↗ -1.5 дня (покращення)</span>
+                </div>
+                <div class="stat-icon-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              </div>
+
+              <div class="stat-card">
+                <div class="stat-card-left">
+                  <span class="stat-card-label">Ефективність центрів</span>
+                  <span class="stat-card-value">92%</span>
+                  <span class="stat-card-trend-badge trend-up" style="margin-top:4px;">↗ Виконання плану залучення</span>
+                </div>
+                <div class="stat-icon-wrapper"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+              </div>
+            </div>
+
+            <!-- Друга лінія: Площі/Графіки -->
+            <div class="charts-split-row">
+              <!-- Графік Динаміки Area -->
+              <div class="tactical-card">
+                <div class="tactical-card-header">
+                  <h3 class="tactical-card-title">Динаміка залучення та зарахування</h3>
+                </div>
+                <div class="canvas-container">
+                  <canvas id="analyticsAreaCanvas"></canvas>
+                </div>
+              </div>
+
+              <!-- Розподіл по регіонах Donut -->
+              <div class="tactical-card">
+                <div class="tactical-card-header">
+                  <h3 class="tactical-card-title">Розподіл залучених за областю</h3>
+                </div>
+                <div class="canvas-container">
+                  <canvas id="analyticsRegionCanvas"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Третя лінія: Ефективність рекрутерів за списком -->
+            <div class="tactical-card">
+              <div class="tactical-card-header">
+                <h3 class="tactical-card-title">Аналіз оперативної ефективності військових рекрутерів</h3>
+              </div>
+              <div class="table-container">
+                <table class="military-table">
+                  <thead>
+                    <tr>
+                      <th>Рекрутер бригади / Центр</th>
+                      <th>Реєстрація нових справ</th>
+                      <th>Проведено співбесід</th>
+                      <th>Рекомендовано командуванню</th>
+                      <th>Показник конверсії (%)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Майор Петренко Олексій</strong> (Головне управління)</td>
+                      <td>245</td>
+                      <td>189</td>
+                      <td>89</td>
+                      <td><span style="color:#10b981; font-weight:700;">47.1%</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Капітан Іванов Сергій</strong> (Львівський ЦР)</td>
+                      <td>188</td>
+                      <td>142</td>
+                      <td>55</td>
+                      <td><span style="color:#10b981; font-weight:700;">38.7%</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Старшина Сидоренко Г.О.</strong> (Одеса)</td>
+                      <td>120</td>
+                      <td>89</td>
+                      <td>30</td>
+                      <td><span style="color:#f97316; font-weight:700;">25.0%</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Молодший сержант Коваленко В.</strong> (Харків)</td>
+                      <td>98</td>
+                      <td>55</td>
+                      <td>18</td>
+                      <td><span style="color:#eab308; font-weight:700;">18.3%</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- =========================================
+               7. СЕКЦІЯ: КОРИСТУВАЧІ ТА СПІВРОБІТНИКИ
+               ========================================= -->
+          <section id="users-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Управління користувачами</h1>
+                <p class="page-subtitle">Реєстрація та модифікація військових офіцерів-операторів КРМ.</p>
+              </div>
+              <div>
+                <button class="btn-success-tactical" id="userCreateBtn">+ Створити користувача</button>
+              </div>
+            </div>
+
+            <!-- Фільтра у користувачах -->
+            <div class="filter-panel">
+              <div class="filter-search-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="userSearchInput" placeholder="Пошук користувача за ім'ям або email..." />
+              </div>
+              <select class="filter-widget-select" id="userRoleFilter">
+                <option value="Всі ролі">Всі ролі у системі</option>
+                <option value="Адміністратор">Адміністратор</option>
+                <option value="Рекрутер">Рекрутер</option>
+                <option value="Керівник">Керівник</option>
+                <option value="Оператор">Оператор</option>
+              </select>
+            </div>
+
+            <!-- Таблиця користувачів -->
+            <div class="table-container">
+              <table class="military-table">
+                <thead>
+                  <tr>
+                    <th>Користувач / ПІБ та Email</th>
+                    <th>Роль сесії</th>
+                    <th>Статус обліку</th>
+                    <th>Останній тактичний вхід</th>
+                    <th>Підвідомчий підрозділ</th>
+                    <th style="width: 150px;">Дії</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                  <!-- Рендер з App.js -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- =========================================
+               8. СЕКЦІЯ: РОЛІ ТА ПРАВА ДОСТУПУ (RBAC)
+               ========================================= -->
+          <section id="roles-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Ролі та права доступу</h1>
+                <p class="page-subtitle">Матрична система розподілу прав (RBAC). Натисніть на індикатор для переключення дозволу.</p>
+              </div>
+              <div>
+                <button class="btn-success-tactical" id="btnCreateRoleTrigger">Створити роль</button>
+              </div>
+            </div>
+
+            <!-- Розрахункова таблиця дозволів -->
+            <div class="table-container">
+              <table class="military-table">
+                <thead>
+                  <tr>
+                    <th>Право доступу в системі</th>
+                    <th style="text-align: center; width:150px;">
+                      <svg class="roles-shield-box" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      <div style="font-size:11px; font-weight:800;">АДМІНІСТРАТОР</div>
+                    </th>
+                    <th style="text-align: center; width:150px;">
+                      <svg class="roles-shield-box" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      <div style="font-size:11px; font-weight:800;">РЕКРУТЕР</div>
+                    </th>
+                    <th style="text-align: center; width:150px;">
+                      <svg class="roles-shield-box" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      <div style="font-size:11px; font-weight:800;">КЕРІВНИК</div>
+                    </th>
+                    <th style="text-align: center; width:150px;">
+                      <svg class="roles-shield-box" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                      <div style="font-size:11px; font-weight:800;">ОПЕРАТОР</div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="permissionsTableBody">
+                  <!-- Динамічно генерується матриця прав -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- =========================================
+               9. СЕКЦІЯ: ЖУРНАЛ СИСТЕМНИХ ДІЙ (LOGS)
+               ========================================= -->
+          <section id="logs-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Журнал системних дій</h1>
+                <p class="page-subtitle">Двостороннє логування (аудит) дій для відстеження операцій СБ та посадових осіб.</p>
+              </div>
+              <div>
+                <button class="btn-success-tactical" id="logsExportBtn">Експорт логів (.TXT)</button>
+              </div>
+            </div>
+
+            <!-- Фільтрація логів -->
+            <div class="filter-panel">
+              <div class="filter-search-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="logSearchInput" placeholder="Пошук по журналу (користувач, дія, об'єкт)..." />
+              </div>
+              <select class="filter-widget-select" id="logTypeFilter">
+                <option value="Всі типи дій">Всі типи дій</option>
+                <option value="Створення анкет">Створення анкет</option>
+                <option value="Редагування анкет">Редагування анкет</option>
+                <option value="Видалення анкет">Видалення анкет</option>
+                <option value="Завантаження документів">Завантаження документів</option>
+                <option value="Зміна статусів">Зміна статусів</option>
+                <option value="Очищення журналу">Очищення журналу</option>
+                <option value="Управління користувачами">Управління користувачами</option>
+                <option value="Редагування налаштувань">Редагування налаштувань</option>
+                <option value="Оновлення дозволів">Оновлення дозволів</option>
+              </select>
+            </div>
+
+            <!-- Таблиця журналів -->
+            <div class="table-container">
+              <table class="military-table" id="logsMainTable">
+                <thead>
+                  <tr>
+                    <th style="width:180px;">Дата та час</th>
+                    <th>Оперативний користувач</th>
+                    <th>Тип дії</th>
+                    <th>Цільовий тактичний об'єкт</th>
+                    <th>Результат СБ</th>
+                    <th style="width:130px;">IP / Пристрій</th>
+                  </tr>
+                </thead>
+                <tbody id="logsTableBody">
+                  <!-- Рядки рендеряться з App.js -->
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- =========================================
+               10. СЕКЦІЯ: НАЛАШТУВАННЯ СИСТЕМ (SETTINGS)
+               ========================================= -->
+          <section id="settings-section" class="page-section">
+            <div class="page-header">
+              <div>
+                <h1 class="page-title">Налаштування системи</h1>
+                <p class="page-subtitle">Базові конфігурації роботи системи та параметри автоматизації АСУ.</p>
+              </div>
+              <div>
+                <button class="btn-success-tactical" id="settingsSaveBtn">Зберегти налаштування</button>
+              </div>
+            </div>
+
+            <!-- Сітка блоків форми налаштувань -->
+            <div class="settings-grid">
+              
+              <!-- Загальні параметри -->
+              <div class="form-panel-tactical">
+                <h3 class="form-panel-title">Загальні параметри АСУ</h3>
+                <div class="doc-upload-grid" style="gap:16px;">
+                  <div class="form-element">
+                    <label class="form-element-label">Назва системи військової частини</label>
+                    <input type="text" class="text-input-tactical" id="settSystemName" />
+                  </div>
+                  <div class="form-element">
+                    <label class="form-element-label">Приналежність до організації</label>
+                    <input type="text" class="text-input-tactical" id="settOrg" />
+                  </div>
+                  <div class="form-element">
+                    <label class="form-element-label">Періодичність резервного копіювання</label>
+                    <input type="text" class="text-input-tactical" id="settBackup" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Безпека та Терміни -->
+              <div class="form-panel-tactical">
+                <h3 class="form-panel-title">Системна тактична безпека</h3>
+                <div class="doc-upload-grid" style="gap:16px;">
+                  <div class="form-element">
+                    <label class="form-element-label">Термін активної сесії користувача</label>
+                    <select class="text-input-tactical" id="settSession">
+                      <option value="15 хвилин">15 хвилин</option>
+                      <option value="30 хвилин">30 хвилин</option>
+                      <option value="60 хвилин">60 хвилин</option>
+                      <option value="120 хвилин">120 хвилин</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-element">
+                    <label class="form-element-label">Локалізація та мова інтерфейсу</label>
+                    <select class="text-input-tactical" id="settLanguage">
+                      <option value="Українська">Українська (ЗСУ за замовч.)</option>
+                      <option value="English">English / NATO Compliant</option>
+                    </select>
+                  </div>
+
+                  <!-- Тумблер двофакторної авторизації -->
+                  <div class="form-element">
+                    <label class="form-element-label">Мережевий захист та шифрування</label>
+                    <div class="tactical-toggle-container">
+                      <span style="font-size:13.5px; color:#cbd5e1; font-weight:600;">Двофакторна автентифікація (2FA)</span>
+                      <label class="toggle-switch-wrapper">
+                        <input type="checkbox" id="sett2fa" checked />
+                        <span class="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+      </main>
+
+    </div>
+
+    <!-- =========================================
+         СИСТЕМНІ МОДАЛЬНІ ВІКНА (Modals Backdrops)
+         ========================================= -->
+
+    <!-- МОДАЛКА №1: ДЕТАЛЬНИЙ ПЕРЕГЛЯД ТАКТИЧНОЇ СПРАВИ КАНДИДАТА -->
+    <div class="modal-backdrop" id="viewCandidateModal">
+      <div class="modal-container" style="max-width: 780px;">
+        <div class="modal-header">
+          <h2 class="modal-title" id="vModalTitle">Тактична справа кандидата [C-1024]</h2>
+          <button class="modal-close-btn modal-close-trigger" title="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="modal-body" style="display:flex; flex-direction:column; gap:20px;">
+          
+          <!-- Шапка статусу -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background-color: #12161a; border: 1px solid #232a30; padding: 14px 20px; border-radius: 10px;">
+            <div style="display: flex; flex-direction: column;">
+              <span class="detail-label">Поточний етап відбору:</span>
+              <strong style="color: #ffffff; font-size: 14px;" id="vStage">Первинна реєстрація</strong>
+            </div>
+            <span class="badge-status" id="vStatusBox" style="font-size: 13px;">Новий</span>
+          </div>
+
+          <!-- Сітка персональних та професійних даних -->
+          <div>
+            <div class="tactical-section-label">1. Особисті та контактні дані</div>
+            <div class="detail-view-grid">
+              <div><span class="detail-label">ПІБ кандидата</span><div class="detail-value" id="vFio">Коваленко Олександр Петрович</div></div>
+              <div><span class="detail-label">ІПН / РНОКПП</span><div class="detail-value" id="vIpn">3245678901</div></div>
+              <div><span class="detail-label">Мобільний телефон</span><div class="detail-value" id="vPhone">+380 67 123 45 67</div></div>
+              <div><span class="detail-label">Ел. пошта</span><div class="detail-value" id="vEmail">kovalenko@gmail.com</div></div>
+              <div><span class="detail-label">Дата народження</span><div class="detail-value" id="vBirthDate">15.06.1992</div></div>
+              <div><span class="detail-label">Стать</span><div class="detail-value" id="vGender">Чоловіча</div></div>
+              <div><span class="detail-label">Регіон обліку</span><div class="detail-value" id="vRegion">Київська область</div></div>
+              <div><span class="detail-label">Місто / Адреса</span><div class="detail-value" id="vCity">Київ</div></div>
+              <div class="full-span"><span class="detail-label">Адреса фактичного мешкання</span><div class="detail-value" id="vAddress">вул. Хрещатик, 15, кв. 4</div></div>
+            </div>
+          </div>
+
+          <div class="info-block-divider"></div>
+
+          <div>
+            <div class="tactical-section-label">2. Освіта, військова кафедра та розподіл</div>
+            <div class="detail-view-grid">
+              <div><span class="detail-label">Рівень освіти / Академія</span><div class="detail-value" id="vEduc">Вища</div></div>
+              <div><span class="detail-label">Навчальний заклад</span><div class="detail-value" id="vInst">КНУ Шевченка</div></div>
+              <div><span class="detail-label">Військова спеціальність (за дипломом)</span><div class="detail-value" id="vSpec">Кібербезпека</div></div>
+              <div><span class="detail-label">Бажаний підродзіл ЗСУ</span><div class="detail-value" id="vUnit" style="color:#10b981; font-weight:700;">Сили безпілотних систем (СБС)</div></div>
+              <div class="full-span"><span class="detail-label">Цивільний досвід роботи</span><div class="detail-value" id="vWork">7 років у системному адмініструванні</div></div>
+              <div class="full-span"><span class="detail-label">Попередній військовий досвід</span><div class="detail-value" id="vMil">Військова кафедра при університеті</div></div>
+            </div>
+          </div>
+
+          <div class="info-block-divider"></div>
+
+          <!-- Прикріплені копії файлів -->
+          <div>
+            <div class="tactical-section-label">3. Документи та верифікаційні файли</div>
+            <div class="modal-docs-list" id="vDocsList">
+              <!-- Генерується динамічно -->
+            </div>
+          </div>
+
+          <div class="info-block-divider"></div>
+
+          <!-- Журнал змін / Хроніка справи -->
+          <div>
+            <div class="tactical-section-label">4. Оперативна хронологія справи кандидатів</div>
+            <div class="modal-docs-list" id="vTimelineContainer" style="background-color: #12161a; padding: 16px; border-radius: 10px; border: 1px solid #20272e;">
+              <!-- Історія змін -->
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary-tactical modal-close-trigger">Закрити справу</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- МОДАЛКА №2: РЕДАГУВАННЯ ФОРМИ КАНДИДАТА -->
+    <div class="modal-backdrop" id="editCandidateModal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title">Коригування особистої справи кандидата</h2>
+          <button class="modal-close-btn modal-close-trigger" title="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-grid-tactical">
+            <div class="form-element">
+              <label class="form-element-label">Прізвище *</label>
+              <input type="text" class="text-input-tactical" id="editLastName" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Ім’я *</label>
+              <input type="text" class="text-input-tactical" id="editFirstName" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">По батькові</label>
+              <input type="text" class="text-input-tactical" id="editMiddleName" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Дата народження *</label>
+              <input type="date" class="text-input-tactical" id="editBirthDate" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Стать *</label>
+              <select class="text-input-tactical" id="editSex">
+                <option value="Чоловіча">Чоловіча</option>
+                <option value="Жіноча">Жіноча</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">ІПН (10 цифр)</label>
+              <input type="text" class="text-input-tactical" id="editIpn" maxlength="10" />
+            </div>
+
+            <div class="form-element">
+              <label class="form-element-label">Мобільний телефон *</label>
+              <input type="text" class="text-input-tactical" id="editPhone" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Адреса Email *</label>
+              <input type="email" class="text-input-tactical" id="editEmail" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Область</label>
+              <select class="text-input-tactical" id="editRegion">
+                <option value="Київська">Київська</option>
+                <option value="Львівська">Львівська</option>
+                <option value="Дніпропетровська">Дніпропетровська</option>
+                <option value="Одеська">Одеська</option>
+                <option value="Харківська">Харківська</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Місто / Населений пункт *</label>
+              <input type="text" class="text-input-tactical" id="editCity" />
+            </div>
+            <div class="form-element form-group-full">
+              <label class="form-element-label">Адреса проживання</label>
+              <input type="text" class="text-input-tactical" id="editAddress" />
+            </div>
+
+            <div class="form-element">
+              <label class="form-element-label">Рівень освіти *</label>
+              <select class="text-input-tactical" id="editEducationLevel">
+                <option value="Вища">Вища</option>
+                <option value="Середня спеціальна">Середня спеціальна</option>
+                <option value="Середня">Середня</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Навчальний заклад *</label>
+              <input type="text" class="text-input-tactical" id="editInstitution" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Спеціальність *</label>
+              <input type="text" class="text-input-tactical" id="editSpeciality" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Бажаний підрозділ *</label>
+              <select class="text-input-tactical" id="editDesiredUnit">
+                <option value="Сили безпілотних систем (СБС)">Сили безпілотних систем (СБС)</option>
+                <option value="Сухопутні війська (Піхота)">Сухопутні війська (Піхота)</option>
+                <option value="Медична служба бригади">Медична служба бригади</option>
+                <option value="Сили спеціальних операцій (ССО)">Сили спеціальних операцій (ССО)</option>
+                <option value="Загін РЕБ та радіотехнічного зв'язку">Загін РЕБ та радіотехнічного зв'язку</option>
+                <option value="Військово-Морські Сили">Військово-Морські Сили</option>
+              </select>
+            </div>
+            <div class="form-element form-group-full">
+              <label class="form-element-label">Цивільний досвід роботи</label>
+              <textarea class="text-input-tactical" id="editWorkExperience" style="height:60px; padding:10px; resize:none;"></textarea>
+            </div>
+            <div class="form-element form-group-full">
+              <label class="form-element-label">Військовий досвід</label>
+              <textarea class="text-input-tactical" id="editMilitaryExperience" style="height:60px; padding:10px; resize:none;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary-tactical modal-close-trigger">Скасувати</button>
+          <button class="btn-success-tactical" id="editCandidateSubmitBtn">Зберегти правки</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- МОДАЛКА №3: СТВОРЕННЯ КОРИСТУВАЧА -->
+    <div class="modal-backdrop" id="createUserModal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title">Створення офіцера-користувача системи</h2>
+          <button class="modal-close-btn modal-close-trigger" title="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="doc-upload-grid" style="gap: 16px;">
+            <div class="form-element">
+              <label class="form-element-label">Військове звання та ПІБ *</label>
+              <input type="text" class="text-input-tactical" id="newUserName" placeholder="Напр. Капітан Марченко К.С." />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Ел. пошта (Логін військ. домену) *</label>
+              <input type="email" class="text-input-tactical" id="newUserEmail" placeholder="marchenko@recruit.gov.ua" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Військова системна роль *</label>
+              <select class="text-input-tactical" id="newUserRole">
+                <option value="Оператор">Оператор (Введення)</option>
+                <option value="Рекрутер">Рекрутер (Введення/Статуси)</option>
+                <option value="Керівник">Керівник (Звіти/Аналітика)</option>
+                <option value="Адміністратор">Адміністратор (Повні права)</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Штабний підрозділ / Центр *</label>
+              <input type="text" class="text-input-tactical" id="newUserDept" placeholder="Напр. Львівський ЦР або Військова частина" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary-tactical modal-close-trigger">Скасувати</button>
+          <button class="btn-success-tactical" id="createUserSubmitBtn">Створити обліковий запис</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- МОДАЛКА №4: РЕДАГУВАННЯ КОРИСТУВАЧА -->
+    <div class="modal-backdrop" id="editUserModal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title">Коригування профілю користувача</h2>
+          <button class="modal-close-btn modal-close-trigger" title="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="doc-upload-grid" style="gap: 16px;">
+            <div class="form-element">
+              <label class="form-element-label">ПІБ користувача *</label>
+              <input type="text" class="text-input-tactical" id="editUserName" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Військова ел. пошта *</label>
+              <input type="email" class="text-input-tactical" id="editUserEmail" />
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Військова системна роль *</label>
+              <select class="text-input-tactical" id="editUserRole">
+                <option value="Оператор">Оператор</option>
+                <option value="Рекрутер">Рекрутер</option>
+                <option value="Керівник">Керівник</option>
+                <option value="Адміністратор">Адміністратор</option>
+              </select>
+            </div>
+            <div class="form-element">
+              <label class="form-element-label">Штабний підрозділ *</label>
+              <input type="text" class="text-input-tactical" id="editUserDept" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary-tactical modal-close-trigger">Скасувати</button>
+          <button class="btn-success-tactical" id="editUserSubmitBtn">Зберегти профіль</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- МОДАЛКА №5: ПІДТВЕРДЖЕННЯ ВИДАЛЕННЯ/АРХІВАЦІЇ КАНДИДАТА -->
+    <div class="modal-backdrop" id="deleteCandidateModal">
+      <div class="modal-container" style="max-width: 480px;">
+        <div class="modal-header" style="background-color:rgba(239, 68, 68, 0.05); border-bottom-color: rgba(239, 68, 68, 0.15);">
+          <h2 class="modal-title" style="color: #ef4444;">Утилізація тактичної картки</h2>
+          <button class="modal-close-btn modal-close-trigger" title="Закрити">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 24px; text-align: center;">
+          <div style="width: 54px; height: 54px; border-radius: 50%; background-color: rgba(239, 68, 68, 0.1); color: #ef4444; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid #ef4444;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:28px; height:28px;"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></svg>
+          </div>
+          <h3 style="font-size: 16px; font-weight:800; color: #fff; margin-bottom:10px;">Вилучити кандидата з активної картотеки?</h3>
+          <p style="font-size: 13.5px; color:#c0c9d6; line-height: 1.5; margin-bottom: 20px;">
+            Ви збираєтесь вилучити кандидата <strong id="deleteTargetName">"fullName (C-1024)"</strong>. Дану дію буде внесено у тактичний журнал аудит-систем журналу дій.
+          </p>
+        </div>
+        <div class="modal-footer" style="background-color:#12161a;">
+          <button class="btn-secondary-tactical modal-close-trigger">Скасувати операцію</button>
+          <button class="btn-danger-tactical" id="confirmDeleteBtn" style="background-color: #ef4444; color: #000; font-weight: 800; border-color:#ef4444;">Так, вилучити справу</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ТАКТИЧНИЙ КОНТЕЙНЕР ДЛЯ ТОСТ-СПОВІЩЕНЬ -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- ПІДКЛЮЧЕННЯ СКРИПТІВ ХОДУ РОБОТИ -->
+    <script src="/js/api.js"></script>
+    <script src="/js/data.js"></script>
+    <script src="/js/charts.js"></script>
+    <script src="/js/app.js"></script>
+
+  </body>
+</html>
