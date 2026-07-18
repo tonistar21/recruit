@@ -1,0 +1,7 @@
+import { useQuery } from '@tanstack/react-query';
+import { Search } from 'lucide-react';
+import { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+type Result={type:'candidate'|'user'|'document';id:string;label:string;url:string};
+export function GlobalSearch(){const [value,setValue]=useState('');const [term,setTerm]=useState('');const [active,setActive]=useState(0);const nav=useNavigate();useEffect(()=>{const timer=setTimeout(()=>setTerm(value.trim()),300);return()=>clearTimeout(timer)},[value]);const query=useQuery({queryKey:['global-search',term],queryFn:()=>api<Result[]>(`/search?q=${encodeURIComponent(term)}`),enabled:term.length>=2});const results=query.data??[];const go=(item?:Result)=>{if(!item)return;nav(item.url);setValue('');setTerm('')};return <div className="global-search"><Search size={17}/><input value={value} onChange={e=>{setValue(e.target.value);setActive(0)}} onKeyDown={e=>{if(e.key==='Escape'){setValue('');setTerm('')}else if(e.key==='ArrowDown')setActive(x=>Math.min(x+1,results.length-1));else if(e.key==='ArrowUp')setActive(x=>Math.max(x-1,0));else if(e.key==='Enter')go(results[active])}} placeholder="Глобальний пошук…" aria-label="Глобальний пошук"/>{term.length>=2&&<div className="search-dropdown">{query.isLoading?<span>Пошук…</span>:results.length?results.map((x,i)=><button className={i===active?'active':''} key={`${x.type}-${x.id}`} onMouseDown={()=>go(x)}><small>{x.type}</small>{x.label}</button>):<span>Нічого не знайдено</span>}</div>}</div>}

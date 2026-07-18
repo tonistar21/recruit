@@ -1,0 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { PageHeader } from '../components/States';
+import { api } from '../services/api';
+import type { Candidate } from '../types';
+
+const candidateSchema = z.object({first_name:z.string().min(2,'Вкажіть ім’я'),last_name:z.string().min(2,'Вкажіть прізвище'),middle_name:z.string().optional(),email:z.email('Некоректний email'),phone:z.string().min(7,'Некоректний телефон'),region:z.string().optional(),city:z.string().optional(),speciality:z.string().optional(),desired_direction:z.string().optional(),desired_position:z.string().optional(),source:z.string().optional(),notes:z.string().optional()});
+type Values=z.infer<typeof candidateSchema>;
+const fields:{name:keyof Values;label:string;type?:string}[]=[{name:'last_name',label:'Прізвище'},{name:'first_name',label:'Ім’я'},{name:'middle_name',label:'По батькові'},{name:'email',label:'Email',type:'email'},{name:'phone',label:'Телефон'},{name:'city',label:'Місто'}];
+export function CandidateFormPage(){const [step,setStep]=useState(1);const navigate=useNavigate();const queryClient=useQueryClient();const {register,handleSubmit,trigger,formState:{errors}}=useForm<Values>({resolver:zodResolver(candidateSchema),defaultValues:{source:'Рекрутинговий центр'}});const save=useMutation({mutationFn:(values:Values)=>api<Candidate>('/candidates',{method:'POST',body:JSON.stringify({...values,create_account:false})}),onSuccess:async(c)=>{await queryClient.invalidateQueries({queryKey:['candidates']});toast.success('Кандидата зареєстровано');navigate(`/candidates/${c.id}`)},onError:e=>toast.error(e instanceof Error?e.message:'Помилка збереження')});return <><PageHeader title="Нова анкета" subtitle={`Крок ${step} із 2`}/><form className="panel candidate-form" onSubmit={handleSubmit(v=>save.mutate(v))}>{step===1?<><h2>Основні дані</h2><div className="form-grid">{fields.map(f=><label key={f.name}>{f.label}<input type={f.type} {...register(f.name)}/>{errors[f.name]&&<small className="field-error">{errors[f.name]?.message}</small>}</label>)}</div><button type="button" className="button primary" onClick={async()=>{if(await trigger(['first_name','last_name','email','phone']))setStep(2)}}>Наступний крок</button></>:<><h2>Професійний профіль</h2><div className="form-grid"><label>Область<input {...register('region')}/></label><label>Спеціальність<input {...register('speciality')}/></label><label>Бажаний напрям<input {...register('desired_direction')}/></label><label>Бажана посада<input {...register('desired_position')}/></label><label>Джерело<input {...register('source')}/></label></div><label>Нотатки<textarea {...register('notes')}/></label><div className="form-actions"><button type="button" className="button ghost" onClick={()=>setStep(1)}>Назад</button><button className="button primary" disabled={save.isPending}>{save.isPending?'Зберігаємо…':'Зареєструвати'}</button></div></>}</form></>}

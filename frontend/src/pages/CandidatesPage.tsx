@@ -1,0 +1,10 @@
+import { useQuery } from '@tanstack/react-query';
+import { Download, Plus, Search } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Empty, Loading, PageHeader } from '../components/States';
+import { api } from '../services/api';
+import type { Candidate, Page } from '../types';
+import { useAuth } from '../hooks/useAuth';
+
+export function CandidatesPage(){const [q,setQ]=useState('');const [page,setPage]=useState(1);const {can}=useAuth();const query=useQuery({queryKey:['candidates',q,page],queryFn:()=>api<Page<Candidate>>(`/candidates?q=${encodeURIComponent(q)}&page=${page}`)});return <><PageHeader title="Кандидати" subtitle="Єдина електронна картотека кандидатів" actions={<><Link className="button primary" to="/candidates/new"><Plus/>Нова анкета</Link>{can('candidates.export')&&<a className="button ghost" href="/api/v1/candidates/export/csv"><Download/>CSV</a>}</>}/><div className="toolbar"><label className="search"><Search/><input value={q} onChange={e=>{setQ(e.target.value);setPage(1)}} placeholder="Пошук за ПІБ, email, телефоном або ID"/></label></div>{query.isLoading?<Loading/>:query.data?.items.length===0?<Empty title="Кандидатів не знайдено" text="Змініть умови пошуку або створіть нову анкету."/>:<div className="table-wrap"><table><thead><tr><th>Кандидат</th><th>Контакти</th><th>Напрям</th><th>Етап</th><th>Оновлено</th></tr></thead><tbody>{query.data?.items.map(c=><tr key={c.id}><td><Link to={`/candidates/${c.id}`}><b>{c.last_name} {c.first_name} {c.middle_name}</b><small>{c.public_id}</small></Link></td><td>{c.email}<small>{c.phone}</small></td><td>{c.speciality||'Не вказано'}</td><td><span className="badge">{c.stage.name}</span></td><td>{new Date(c.updated_at).toLocaleDateString('uk-UA')}</td></tr>)}</tbody></table><div className="pagination"><button disabled={page===1} onClick={()=>setPage(page-1)}>Назад</button><span>Сторінка {page} · усього {query.data?.total}</span><button disabled={(query.data?.items.length??0)<20} onClick={()=>setPage(page+1)}>Далі</button></div></div>}</>}
